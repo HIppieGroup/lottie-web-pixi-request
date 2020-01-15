@@ -5,7 +5,7 @@
   "main": "./build/player/lottie.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/airbnb/lottie-web.git"
+    "url": "https://github.com/HIppieGroup/lottie-web-pixi-request"
   },
   "scripts": {
     "build": "node tasks/build.js"
