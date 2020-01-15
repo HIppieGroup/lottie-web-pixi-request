@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html style="width: 100%;height: 100%">
 <head>
+     <script src="./pixi.min.js"></script>
+     <script type="text/javascript">
+         window.appPixi = new PIXI.Application({width: 256, height: 256});
+         // window.appPixi.ticker
+     </script>
      <script src="../../build/player/lottie.js"></script>
      <script src="data.js"></script>
 </head>
@@ -8,7 +13,25 @@
 
 <div style="width:100%;height:100%;background-color:#333;" id="bodymovin"></div>
 
+<div class="buttonsWrap">
+    <button id="stop">stop</button>
+    <button id="play">play</button>
+    <button id="pause">pause</button>
+</div>
+
+<style>
+    .buttonsWrap {
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: #fff;
+    }
+</style>
+
 <script>
+    var stopButton = document.getElementById('stop');
+    var playButton = document.getElementById('play');
+    var pauseButton = document.getElementById('pause');
 
     var animParams = {
         wrapper: document.getElementById('bodymovin'),
@@ -22,6 +45,18 @@
     bodymovin.setQuality(500);
     var anim = bodymovin.loadAnimation(animParams);
     window.onresize = anim.resize.bind(anim);
+
+    stopButton.addEventListener('click', () => {
+        bodymovin.stop();
+    })
+
+    playButton.addEventListener('click', () => {
+        bodymovin.play();
+    })
+
+    pauseButton.addEventListener('click', () => {
+        bodymovin.pause();
+    })
 </script>
 </body>
 </html>

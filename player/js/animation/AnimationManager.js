@@ -94,26 +94,33 @@ var animationManager = (function(){
             registeredAnimations[i].animation.play(animation);
         }
     }
-    function resume(nowTime) {
+
+    // тута происходит анимация
+    function resume() {
+        var nowTime = window.appPixi.ticker.lastTime;
+        // console.log('resume', nowTime);
         var elapsedTime = nowTime - initTime;
         var i;
         for(i=0;i<len;i+=1){
             registeredAnimations[i].animation.advanceTime(elapsedTime);
         }
         initTime = nowTime;
-        if(playingAnimationsNum && !_isFrozen) {
-            window.requestAnimationFrame(resume);
+        if((playingAnimationsNum && !_isFrozen)) {
+            // window.requestAnimationFrame(resume);
         } else {
             _stopped = true;
         }
     }
 
     function first(nowTime){
-        initTime = nowTime;
-        window.requestAnimationFrame(resume);
+        initTime = window.appPixi.ticker.lastTime;
+        // console.log('first');
+        window.appPixi.ticker.add(resume);
+        // window.requestAnimationFrame(resume);
     }
 
     function pause(animation) {
+        console.log('pause');
         var i;
         for(i=0;i<len;i+=1){
             registeredAnimations[i].animation.pause(animation);
@@ -128,6 +135,7 @@ var animationManager = (function(){
     }
 
     function stop(animation) {
+        // console.log('stop');
         var i;
         for(i=0;i<len;i+=1){
             registeredAnimations[i].animation.stop(animation);
@@ -180,16 +188,20 @@ var animationManager = (function(){
         }
     }
 
+    // тут запуск
     function activate(){
         if(!_isFrozen && playingAnimationsNum){
             if(_stopped) {
-                window.requestAnimationFrame(first);
+                // console.log('activate');
+                first();
+                // window.requestAnimationFrame(first);
                 _stopped = false;
             }
         }
     }
 
     function freeze() {
+        // console.log('freeze');
         _isFrozen = true;
     }
 
